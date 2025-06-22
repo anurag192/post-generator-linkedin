@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <title>LinkedIn Post Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: var(--bs-body-bg);
+            color: var(--bs-body-color);
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: var(--bs-body-bg);
+            border-radius: 12px;
+            border: 1px solid var(--bs-border-color-translucent);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .generated-post {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-end mt-3">
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="darkModeSwitch">
+                <label class="form-check-label" for="darkModeSwitch">Dark Mode</label>
+            </div>
+        </div>
+
+        <div class="form-container">
+            <h2 class="text-center mb-4">LinkedIn Post Generator</h2>
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Select Title</label>
+                    <select class="form-select" name="title" id="title" required>
+                        {% for tag in tags %}
+                        <option value="{{ tag }}">{{ tag }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="length" class="form-label">Select Length</label>
+                    <select class="form-select" name="length" id="length" required>
+                        {% for length in lengths %}
+                        <option value="{{ length }}">{{ length }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="language" class="form-label">Select Language</label>
+                    <select class="form-select" name="language" id="language" required>
+                        {% for language in languages %}
+                        <option value="{{ language }}">{{ language }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Generate Post</button>
+                </div>
+            </form>
+
+            {% if post %}
+            <div class="generated-post mt-5">
+                <h4>Generated Post:</h4>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text">{{ post }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (for toggling theme) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const switchInput = document.getElementById('darkModeSwitch');
+        const html = document.documentElement;
+
+        // Load saved theme from localStorage
+        if (localStorage.getItem('theme') === 'dark') {
+            html.setAttribute('data-bs-theme', 'dark');
+            switchInput.checked = true;
+        }
+
+        switchInput.addEventListener('change', () => {
+            const isDark = switchInput.checked;
+            html.setAttribute('data-bs-theme', isDark ? 'dark' : 'light');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        });
+    </script>
+</body>
+</html>
