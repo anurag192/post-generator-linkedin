@@ -81,12 +81,5 @@ streamlit run main.py
      ┗ 📄 processed_posts.json   # Sample past post data
 ```
 
----
-
-## 📸 Screenshot
-
-![App Screenshot](https://github.com/anurag192/post-generator-linkedin/blob/main/image.png)
-
----
 
 
